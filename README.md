@@ -1,8 +1,6 @@
 # Entraceable
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/entraceable`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Entraceable makes your methods garrulous.
 
 ## Installation
 
@@ -22,7 +20,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+When you have an example class like below:
+
+```ruby
+class Example
+  def add(a, b)
+    a + b
+  end
+end
+```
+
+To make it garrulous:
+
+```ruby
+require 'entraceable'
+
+class Example
+  entraceable :add, tag: "TRACE", level: :debug
+end
+```
+
+To disable:
+
+```ruby
+class Example
+  distraceable :add
+end
+```
 
 ## Development
 
@@ -32,7 +56,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/entraceable. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kei-g/entraceable. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
