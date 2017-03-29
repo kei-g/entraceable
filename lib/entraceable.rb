@@ -11,9 +11,7 @@ module Entraceable
         puts.call %Q(#{method} is called with arguments, \#\{args.map(&:inspect).join(", ")\})
         @indent_level += 1
         begin
-          send(:#{alias_name}, *args).tap do |result|
-            puts.call %Q(#{method} returns \#\{result\})
-          end
+          send(:#{alias_name}, *args).tap{|result|puts.call %Q(#{method} returns \#\{result\})}
         ensure
           @indent_level -= 1
         end
