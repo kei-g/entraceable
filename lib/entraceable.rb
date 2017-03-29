@@ -2,7 +2,7 @@ require "entraceable/version"
 
 module Entraceable
   def entraceable(method, tag: nil, level: :debug)
-    alias_name = Entraceable.alias_name_for method
+    alias_name = alias_name_for method
     class_eval <<-EOS if Rails.env.development?
       alias_method :#{alias_name}, :#{method}
       def #{method}(*args)
@@ -20,7 +20,7 @@ module Entraceable
   end
 
   def distraceable(method)
-    alias_name = Entraceable.alias_name_for method
+    alias_name = alias_name_for method
     class_eval <<-EOS if Rails.env.development?
       remove_method :#{method}
       alias_method :#{method}, :#{alias_name}
@@ -29,8 +29,8 @@ module Entraceable
   end
 
   private
-    def self.alias_name_for(method)
-      ["original", method.to_s.sub(/\[\]/, "indexer")].join("_").intern
+    def alias_name_for(method)
+      ["original", to_s, method.to_s.sub(/\[\]/, "indexer")].join("_").intern
     end
 end
 
