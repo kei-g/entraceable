@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-When you have an example class like below:
+For example, you have a class like below:
 
 ```ruby
 class Example
@@ -36,7 +36,7 @@ To make it garrulous:
 require 'entraceable'
 
 class Example
-  entraceable :add, tag: "TRACE", level: :debug
+  entraceable :add, tag: :TRACE, level: :debug
 end
 ```
 
