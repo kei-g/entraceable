@@ -8,7 +8,7 @@ module Entraceable
       def #{method}(*args)
         indent = " " * ((@indent_level ||= 0) * 2)
         puts = ->c{Rails.logger.tagged(%Q(#{tag})) {Rails.logger.send :#{level}, indent + c}}
-        puts.call %Q(#{method} is called with arguments, \#\{args\})
+        puts.call %Q(#{method} is called with arguments, \#\{args.join(", ")\})
         @indent_level += 1
         send(:#{alias_name}, *args).tap do |result|
           @indent_level -= 1
