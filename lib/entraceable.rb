@@ -6,9 +6,9 @@ module Entraceable
     class_eval <<-EOS if Rails.env.development?
       alias_method :#{alias_name}, :#{method}
       def #{method}(*args)
-        Rails.logger.tagged(#{tag}) {Rails.logger.send :#{level}, %Q(#{method} is called with arguments, \#\{args\})}
+        Rails.logger.tagged(%Q(#{tag})) {Rails.logger.send :#{level}, %Q(#{method} is called with arguments, \#\{args\})}
         send(:#{alias_name}, *args).tap do |result|
-          Rails.logger.tagged(#{tag}) {Rails.logger.send :#{level}, %Q(#{method} returns \#\{result\})}
+          Rails.logger.tagged(%Q(#{tag})) {Rails.logger.send :#{level}, %Q(#{method} returns \#\{result\})}
         end
       end
     EOS
