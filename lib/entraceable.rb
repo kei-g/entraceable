@@ -30,7 +30,7 @@ module Entraceable
 
   private
     def alias_name_for(method)
-      ["original", to_s, method.to_s.sub(/\[\]/, "indexer")].join("_").intern
+      ["original", *to_s.underscore.split('/'), method.to_s.sub(/\[\]/, "indexer")].join("_").intern
     end
 end
 
