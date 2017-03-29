@@ -10,9 +10,12 @@ module Entraceable
         puts = ->c{Rails.logger.tagged(%Q(#{tag})) {Rails.logger.send :#{level}, indent + c}}
         puts.call %Q(#{method} is called with arguments, \#\{args.map(&:inspect).join(", ")\})
         @indent_level += 1
-        send(:#{alias_name}, *args).tap do |result|
+        begin
+          send(:#{alias_name}, *args).tap do |result|
+            puts.call %Q(#{method} returns \#\{result\})
+          end
+        ensure
           @indent_level -= 1
-          puts.call %Q(#{method} returns \#\{result\})
         end
       end
     EOS
