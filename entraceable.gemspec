@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Keiji Yoshida"]
 
   spec.summary       = %q{Make your methods garrulous.}
-  spec.description   = %q{Make your methods puts their actual arguments and return value using Rails logger.}
+  spec.description   = %q{Make your method puts its actual arguments and return value using Rails logger.}
   spec.homepage      = "https://github.com/kei-g/entraceable"
   spec.license       = "3-Clause BSD"
 
