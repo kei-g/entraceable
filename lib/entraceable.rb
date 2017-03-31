@@ -1,4 +1,5 @@
 require "entraceable/version"
+require "rails"
 
 module Entraceable
   def entraceable(method, tag: nil, level: :debug)
