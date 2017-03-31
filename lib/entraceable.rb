@@ -2,9 +2,12 @@ require "entraceable/version"
 require "rails"
 
 module Entraceable
+  @default_level = :debug
   @enabled = Rails.env.development?
 
   class << self
+    attr_accessor :default_level
+
     def disable
       @enabled = false
     end
@@ -26,13 +29,14 @@ module Entraceable
     end
   end
 
-  def entraceable(method, tag: nil, level: :debug)
+  def entraceable(method, tag: nil, level: nil)
     alias_name = alias_name_for method
     class_eval <<-EOS
       alias_method :#{alias_name}, :#{method}
       def #{method}(*args)
         indent = " " * ((@indent_level ||= 0) * 2)
-        puts = ->c{Entraceable.logger.tagged(%Q(#{tag})) {Entraceable.logger.send :#{level}, indent + c} if Entraceable.enabled?}
+        level = (#{level.inspect} || Entraceable.default_level).intern
+        puts = ->c{Entraceable.logger.tagged(%Q(#{tag})) {Entraceable.logger.send level, indent + c} if Entraceable.enabled?}
         puts.call %Q(#{method} is called with arguments, \#\{args.map(&:inspect).join(", ")\})
         @indent_level += 1
         begin
