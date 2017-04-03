@@ -38,8 +38,8 @@ module Entraceable
 
   def entraceable(method, tag: nil, level: nil)
     alias_name = alias_name_for method
+    send :alias_method, alias_name, method
     class_eval <<-EOS
-      alias_method :#{alias_name}, :#{method}
       def #{method}(*args)
         indent = " " * ((@indent_level ||= 0) * 2)
         level = (#{level.inspect} || Entraceable.default_level).intern
@@ -57,11 +57,9 @@ module Entraceable
 
   def distraceable(method)
     alias_name = alias_name_for method
-    class_eval <<-EOS
-      remove_method :#{method}
-      alias_method :#{method}, :#{alias_name}
-      remove_method :#{alias_name}
-    EOS
+    send :remove_method, method
+    send :alias_method, method, alias_name
+    send :remove_method, alias_name
   end
 
   private
