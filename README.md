@@ -36,7 +36,7 @@ To make it garrulous:
 require 'entraceable'
 
 class Example
-  entraceable :add, tag: :TRACE, level: :debug
+  entraceable :add
 end
 ```
 
@@ -46,6 +46,46 @@ To disable:
 class Example
   distraceable :add
 end
+```
+
+### Tag and Level
+
+Tag and level are available:
+
+```ruby
+class Example
+  entraceable :add, tag: "Example"
+  entraceable :sub, level: :warn
+end
+```
+
+### Enable, or disable, all entracabled things
+
+Entraceable is enabled only for development environment.
+To enable for production environment:
+
+```ruby
+Entraceable.enable
+```
+
+To disable:
+
+```ruby
+Entraceable.disable
+```
+
+### Preference
+
+Entraceable is able to be configured also like below:
+
+```ruby
+class MyEntraceablePreference < Entraceable::Preference
+  def enabled?
+    # fetch a column from your database
+  end
+end
+
+Entraceable.preference = MyEntraceablePreference.new
 ```
 
 ## Development

@@ -1,23 +1,30 @@
 require "entraceable/version"
-require "rails"
+require "entraceable_preference"
 
 module Entraceable
-  @default_level = :debug
-  @enabled = Rails.env.development?
+  @preference = Preference.new
 
   class << self
-    attr_accessor :default_level
+    attr_accessor :preference
+
+    def default_level
+      preference.default_level
+    end
+
+    def default_level=(default_level)
+      preference.default_level = default_level
+    end
 
     def disable
-      @enabled = false
+      preference.disable
     end
 
     def enable
-      @enabled = true
+      preference.enable
     end
 
     def enabled?
-      @enabled
+      preference.enabled?
     end
 
     def logger
