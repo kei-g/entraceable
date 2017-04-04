@@ -28,16 +28,16 @@ module Entraceable
 
   def entraceable(method, tag: nil, level: nil)
     alias_name = alias_name_for method
-    send :alias_method, alias_name, method
+    __send__ :alias_method, alias_name, method
     class_eval <<-EOS
       def #{method}(*args)
         indent = " " * ((@indent_level ||= 0) * 2)
         level = (#{level.inspect} || Entraceable.default_level).intern
-        puts = ->c{Entraceable.logger.tagged(%Q(#{tag})) {Entraceable.logger.send level, indent + c} if Entraceable.enabled?}
+        puts = ->c{Entraceable.logger.tagged(%Q(#{tag})) {Entraceable.logger.__send__ level, indent + c} if Entraceable.enabled?}
         puts.call %Q(#{method} is called with arguments, \#\{args.map(&:inspect).join(", ")\})
         @indent_level += 1
         begin
-          send(:#{alias_name}, *args).tap{|result|puts.call %Q(#{method} returns \#\{result\})}
+          __send__(:#{alias_name}, *args).tap{|result|puts.call %Q(#{method} returns \#\{result\})}
         ensure
           @indent_level -= 1
         end
@@ -47,9 +47,9 @@ module Entraceable
 
   def distraceable(method)
     alias_name = alias_name_for method
-    send :remove_method, method
-    send :alias_method, method, alias_name
-    send :remove_method, alias_name
+    __send__ :remove_method, method
+    __send__ :alias_method, method, alias_name
+    __send__ :remove_method, alias_name
   end
 
   private
