@@ -7,26 +7,6 @@ module Entraceable
   class << self
     attr_accessor :preference
 
-    def default_level
-      preference.default_level
-    end
-
-    def default_level=(default_level)
-      preference.default_level = default_level
-    end
-
-    def disable
-      preference.disable
-    end
-
-    def enable
-      preference.enable
-    end
-
-    def enabled?
-      preference.enabled?
-    end
-
     def logger
       @logger ||= Rails.logger
     end
@@ -34,6 +14,16 @@ module Entraceable
     def logger=(arg)
       @logger = arg
     end
+
+    def method_missing(method, *args, &block)
+      raise NoMethodError.new %q(undefined method `#{method}' for #{preference}:#{preference.class}) unless accept? method
+      preference.__send__ method, *args, &block
+    end
+
+    private
+      def accept?(method)
+        %w(default_level default_level= disable enable enabled?).map(&:intern).include? method
+      end
   end
 
   def entraceable(method, tag: nil, level: nil)
