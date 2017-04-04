@@ -30,14 +30,14 @@ module Entraceable
     alias_name = alias_name_for method
     __send__ :alias_method, alias_name, method
     class_eval <<-EOS
-      def #{method}(*args)
+      def #{method}(*args, &block)
         indent = " " * ((@indent_level ||= 0) * 2)
         level = (#{level.inspect} || Entraceable.default_level).intern
         puts = ->c{Entraceable.logger.tagged(%Q(#{tag})) {Entraceable.logger.__send__ level, indent + c} if Entraceable.enabled?}
         puts.call %Q(#{method} is called with arguments, \#\{args.map(&:inspect).join(", ")\})
         @indent_level += 1
         begin
-          __send__(:#{alias_name}, *args).tap{|result|puts.call %Q(#{method} returns \#\{result\})}
+          __send__(:#{alias_name}, *args, &block).tap{|result|puts.call %Q(#{method} returns \#\{result\})}
         ensure
           @indent_level -= 1
         end
