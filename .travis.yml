@@ -1,6 +1,13 @@
 language: ruby
 notifications:
   email: false
+addons:
+  apt:
+    - ri
+    - ruby-dev
+    - ruby-rails
+    - bundler
+dist: focal
 rvm:
   - 2.7.0
 scripts:
