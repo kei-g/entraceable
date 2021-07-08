@@ -8,6 +8,8 @@ addons:
     - ruby-rails
     - bundler
 dist: focal
+env:
+  - RAILS_ENV=development
 rvm:
   - 2.7.0
 scripts:
