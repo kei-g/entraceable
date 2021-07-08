@@ -2,6 +2,10 @@
 
 Entraceable makes your methods garrulous.
 
+[![Travis CI](https://img.shields.io/travis/com/kei-g/entraceable?logo=travis&style=plastic)](https://www.travis-ci.com/github/kei-g/entraceable)
+[![Gem](https://img.shields.io/gem/v/entraceable?logo=rubygems&style=plastic)](https://rubygems.org/gems/entraceable/)
+[![License](https://img.shields.io/github/license/kei-g/entraceable?style=plastic)](https://opensource.org/licenses/BSD-3-Clause)
+
 ## Installation
 
 Add this line to your application's Gemfile:
